@@ -1,21 +1,21 @@
-class Student(Person):
+class Student():
   def __init__(self, fname, lname):
     super().__init__(fname, lname)
 
-class Student(Person):
+class Student():
   def __init__(self, fname, lname):
     super().__init__(fname, lname)
     self.graduationyear = 2019
     
     
-class Student(Person):
+class Student():
   def __init__(self, fname, lname, year):
     super().__init__(fname, lname)
     self.graduationyear = year
 
 x = Student("Mike", "Olsen", 2019)
 
-class Student(Person):
+class Student():
   def __init__(self, fname, lname, year):
     super().__init__(fname, lname)
     self.graduationyear = year
