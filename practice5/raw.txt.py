@@ -1,48 +1,65 @@
 import re
 
-with open("raw.txt", "r", encoding="utf-8") as file:
-    text = file.read()
+txt = "The rain in Spain"
+x = re.search("^The.*Spain$", txt)
 
+import re
 
-prices = re.findall(r"\d+\.\d{2}", text)
+txt = "The rain in Spain"
+x = re.findall("ai", txt)
+print(x)
 
-print("Барлық бағалар:")
-print(prices)
+import re
 
+txt = "The rain in Spain"
+x = re.findall("Portugal", txt)
+print(x)
 
-total = sum(float(price) for price in prices)
+import re
 
-print("Жалпы сома:", total)
+txt = "The rain in Spain"
+x = re.search("\s", txt)
 
+print("The first white-space character is located in position:", x.start())
 
-date = re.search(r"\d{4}-\d{2}-\d{2}", text)
-time = re.search(r"\d{2}:\d{2}", text)
+import re
 
-if date:
-    print("Күні:", date.group())
+txt = "The rain in Spain"
+x = re.search("Portugal", txt)
+print(x)
 
-if time:
-    print("Уақыты:", time.group())
-    
-    
-    
-payment = re.search(r"Payment Method:\s*(\w+)", text)
+import re
 
-if payment:
-    print("Төлем әдісі:", payment.group(1))
-    
-    
-import json
+txt = "The rain in Spain"
+x = re.split("\s", txt)
+print(x)
 
-data = {
-    "prices": prices,
-    "total": total,
-    "date": date.group() if date else None,
-    "time": time.group() if time else None,
-    "payment_method": payment.group(1) if payment else None
-}
+import re
 
-print("\nJSON Output:")
-print(json.dumps(data, indent=4))
+txt = "The rain in Spain"
+x = re.sub("\s", "9", txt)
+print(x)
 
+import re
 
+txt = "The rain in Spain"
+x = re.search("ai", txt)
+print(x) #this will print an object
+
+import re
+
+txt = "The rain in Spain"
+x = re.search(r"\bS\w+", txt)
+print(x.span())
+
+import re
+
+txt = "The rain in Spain"
+x = re.search(r"\bS\w+", txt)
+print(x.string)
+
+import re
+
+txt = "The rain in Spain"
+x = re.search(r"\bS\w+", txt)
+print(x.group())
