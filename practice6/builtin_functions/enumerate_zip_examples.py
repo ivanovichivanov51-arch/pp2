@@ -1,25 +1,28 @@
-from functools import reduce
+# 1. enumerate() — basic usage
+fruits = ["apple", "banana", "cherry"]
 
-# Мәліметтер
-names = ["Асхат", "Берік", "Анар", "Дәурен"]
-scores = [85, 40, 90, 55]
+for index, fruit in enumerate(fruits):
+    print("1.", index, fruit)
 
-# 1. filter(): Тек 60-тан жоғары балл алғандарды сүзу
-high_scores = list(filter(lambda x: x > 60, scores))
 
-# 2. map(): Барлық баллдарға 5 бонус қосу
-bonus_scores = list(map(lambda x: x + 5, scores))
+# 2. enumerate() — starting index from 1
+for index, fruit in enumerate(fruits, start=1):
+    print("2.", index, fruit)
 
-# 3. reduce(): Барлық баллдардың қосындысын табу
-total_sum = reduce(lambda x, y: x + y, scores)
 
-# 4. zip() және enumerate(): Есімдер мен баллдарды жұптастыру
-print("\nСтуденттер тізімі:")
-for i, (name, score) in enumerate(zip(names, scores), 1):
-    print(f"{i}. {name}: {score} балл")
+# 3. zip() — combine two lists
+names = ["Alice", "Bob", "Charlie"]
+scores = [85, 90, 78]
 
-# 5. Типтерді тексеру және түрлендіру
-сан_мәтін = "100"
-if isinstance(сан_мәтін, str):
-    нақты_сан = int(сан_мәтін)
-    print(f"\nТүрлендірілген сан: {нақты_сан}, Типі: {type(нақты_сан)}")
+for name, score in zip(names, scores):
+    print("3.", name, score)
+
+
+# 4. zip() — convert zipped result to list
+zipped_list = list(zip(names, scores))
+print("4. Zipped list:", zipped_list)
+
+
+# 5. zip() + enumerate() — indexed pairing
+for index, (name, score) in enumerate(zip(names, scores), start=1):
+    print("5.", index, name, score)
