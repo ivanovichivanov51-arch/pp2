@@ -25,8 +25,8 @@ while True:
             # ЖАҢА ФИГУРАЛАР (3-тапсырма)
             if event.key == pygame.K_s: mode = 'square' # Квадрат
             if event.key == pygame.K_t: mode = 'right_triangle' # Тікбұрышты үшбұрыш
-            if event.key == pygame.key.K_a: mode = 'equilateral_triangle' # Тең қабырғалы
-            if event.key == pygame.key.K_d: mode = 'rhombus' # Ромб
+            if event.key == pygame.K_a: mode = 'equilateral_triangle' # Тең қабырғалы
+            if event.key == pygame.K_d: mode = 'rhombus' # Ромб
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             start_pos = event.pos
