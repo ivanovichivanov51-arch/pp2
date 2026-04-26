@@ -1,35 +1,53 @@
 import pygame
 import datetime
+import sys
 
 # 1. Инициализация
 pygame.init()
-
-# Экран өлшемін суреттің өлшеміне сәйкес жасайық (мысалы, 800x800)
-WIDTH, HEIGHT = 800, 800
+WIDTH, HEIGHT = 1200, 800
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Mickey Mouse Clock")
 
-# 2. Суреттерді жүктеу (СІЗДЕГІ АТТАРМЕН)
+CENTER = (WIDTH // 2, HEIGHT // 2)
+
+# 2. Суреттерді жүктеу
 try:
     mickey_face = pygame.image.load('mickeys_clock/images/clock.png')
-    hand_left = pygame.image.load('mickeys_clock/images/left_hand.png')
-    hand_right = pygame.image.load('mickeys_clock/images/hand_right_centered.png')
-    
-    # Суреттерді экранға сыйғызу (800x800)
     mickey_face = pygame.transform.scale(mickey_face, (WIDTH, HEIGHT))
-except pygame.error as e:
-    print(f"Суретті жүктеу мүмкін емес: {e}")
-    pygame.quit()
-    exit()
+    
+    hand_left_raw = pygame.image.load('mickeys_clock/images/left_hand.png')
+    hand_right_raw = pygame.image.load('mickeys_clock/images/hand_right_centered.png')
+    
+    
+    
+    # ОҢ ҚОЛ (Right hand) - Ұзынырақ және жіңішке
+    RIGHT_HAND_WIDTH = 550  # Ұзындығын тағы арттырдық
+    RIGHT_HAND_HEIGHT = 100  # Жіңішкелігі
+    
+    # СОЛ ҚОЛ (Left hand) - Бастапқы қалыпқа жақын
+    LEFT_HAND_WIDTH = 800   
+    LEFT_HAND_HEIGHT = 500
+       
 
-def rotate_center(image, angle):
-    """Суретті ортасынан айналдыру функциясы"""
+    hand_right = pygame.transform.scale(hand_right_raw, (RIGHT_HAND_WIDTH, RIGHT_HAND_HEIGHT))
+    hand_left = pygame.transform.scale(hand_left_raw, (LEFT_HAND_WIDTH, LEFT_HAND_HEIGHT))
+    # ---------------------------------------------------------
+
+    mickey_static = pygame.image.load('mickeys_clock/images/mickey_body.png')
+    mickey_static = pygame.transform.scale(mickey_static, (300, 300))
+    
+except pygame.error as e:
+    print(f"Қате: {e}")
+    pygame.quit()
+    sys.exit()
+
+def rotate_hand(image, angle, center_pos):
+    """Суретті центрін сақтап айналдыру"""
     rotated_image = pygame.transform.rotate(image, -angle)
-    # Ортасын (400, 400) нүктесінде сақтап қалу
-    new_rect = rotated_image.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+    new_rect = rotated_image.get_rect(center=center_pos)
     return rotated_image, new_rect
 
-# 3. Ойын циклі
+# 3. Цикл
 running = True
 clock = pygame.time.Clock()
 
@@ -38,31 +56,29 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    # Уақытты алу
     now = datetime.datetime.now()
-    seconds = now.second
-    minutes = now.minute
+    
+    # Градустарды баптау
+    # Егер қолдардың бағыты бұрыс болса, +90 санын өзгертіңіз
+    sec_angle = (now.second * 6) + 90
+    min_angle = (now.minute * 6) -30
 
-    # Бұрыштарды есептеу және түзету
-    # Егер қол сағат 10-ды көрсетіп тұрса, демек оны шамамен 60-90 градусқа бұру керек
-    sec_angle = (seconds * 6)    # 65-тің орнына басқа сан қойып көр (мысалы 90)
-    min_angle = (minutes * 6) -10 # Екі қол бір бағытта болуы үшін
-
-    # Экранды тазалау
     screen.fill((255, 255, 255))
     
-    # 1. Сағат бетін салу
+    # 1. Циферблат
     screen.blit(mickey_face, (0, 0))
 
-    # 2. Минуттық қолды салу (right_hand)
-    surf_m, rect_m = rotate_center(hand_right, min_angle)
+    # 2. Айналмайтын дене
+    static_rect = mickey_static.get_rect(center=CENTER)
+    screen.blit(mickey_static, static_rect)
+
+    # 3. Оң қол (Минуттық - Ұзын)
+    surf_m, rect_m = rotate_hand(hand_right, min_angle, CENTER)
     screen.blit(surf_m, rect_m)
 
-    # 3. Секундтық қолды салу (left_hand)
-    surf_s, rect_s = rotate_center(hand_left, sec_angle)
+    # 4. Сол қол (Секундтық - Қысқалау)
+    surf_s, rect_s = rotate_hand(hand_left, sec_angle, CENTER)
     screen.blit(surf_s, rect_s)
 
     pygame.display.flip()
-    clock.tick(60)
-
-pygame.quit()
+    clock.tick()
